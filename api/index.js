@@ -79,7 +79,6 @@ module.exports = async (request, response) => {
           response.status(200).send({
             type: 4,
             data: {
-              files: [res.data.data[0].url],
               content: `${message.data.options[0].value}`,
             },
           });
