@@ -36,10 +36,6 @@ const INVITE_COMMAND = {
   description: 'Get an invite link to add the bot to your server',
 };
 
-const SUPPORT_COMMAND = {
-  name: 'Support',
-  description: 'Like this bot? Support me!',
-};
 
 const INVITE_URL = `https://discord.com/oauth2/authorize?client_id=${process.env.APPLICATION_ID}&scope=applications.commands`;
 
@@ -96,16 +92,6 @@ module.exports = async (request, response) => {
             },
           });
           console.log('Invite request');
-          break;
-        case SUPPORT_COMMAND.name.toLowerCase():
-          response.status(200).send({
-            type: 4,
-            data: {
-              content: "Thanks for using my bot! Let me know what you think on twitter (@IanMitchel1). If you'd like to contribute to hosting costs, you can donate at https://github.com/sponsors/ianmitchell",
-              flags: 64,
-            },
-          });
-          console.log('Support request');
           break;
         default:
           console.error('Unknown Command');
