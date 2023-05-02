@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+const fetch = require("node-fetch");
 
 
 const SLAP_COMMAND = {
@@ -23,21 +23,23 @@ const INVITE_COMMAND = {
 };
 
 
-const response = await fetch(
-    `https://discord.com/api/v8/applications/1103031357128585348/commands`, {
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bot MTEwMzAzMTM1NzEyODU4NTM0OA.GdWqUH.GRJvHweZB0rWrcR3W9jFE_AM_WeA6udg9FcfXk`,
-        },
-        method: "PUT",
-        body: JSON.stringify([SLAP_COMMAND, INVITE_COMMAND]),
-    }
-);
+(async () => {
+    const response = await fetch(
+        `https://discord.com/api/v8/applications/1103031357128585348/commands`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bot MTEwMzAzMTM1NzEyODU4NTM0OA.GdWqUH.GRJvHweZB0rWrcR3W9jFE_AM_WeA6udg9FcfXk`,
+            },
+            method: "PUT",
+            body: JSON.stringify([SLAP_COMMAND, INVITE_COMMAND]),
+        }
+    );
 
-if (response.ok) {
-    console.log("Registered all commands");
-} else {
-    console.error("Error registering commands");
-    const text = await response.text();
-    console.error(text);
-}
+    if (response.ok) {
+        console.log("Registered all commands");
+    } else {
+        console.error("Error registering commands");
+        const text = await response.text();
+        console.error(text);
+    }
+})()

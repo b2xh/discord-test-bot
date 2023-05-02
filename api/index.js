@@ -1,9 +1,9 @@
-import {
+const {
   InteractionResponseType,
   InteractionType,
   verifyKey,
-} from 'discord-interactions';
-import getRawBody from 'raw-body';
+} = require('discord-interactions');
+const getRawBody = require('raw-body');
 
 const SLAP_COMMAND = {
   name: 'image',
