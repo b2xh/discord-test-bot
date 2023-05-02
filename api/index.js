@@ -64,6 +64,8 @@ module.exports = async (request, response) => {
       });
     }
 
+    const message = request.body;
+
     const res = await openai.createImage({
       prompt: message.data.options[0].value,
       n: 1,
