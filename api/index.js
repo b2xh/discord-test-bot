@@ -66,13 +66,13 @@ module.exports = async (request, response) => {
 
     const message = request.body;
 
-    const res = await openai.createImage({
-      prompt: message.data.options[0].value,
-      n: 1,
-      size: "1024x1024",
-    });
+    // const res = await openai.createImage({
+    //   prompt: message.data.options[0].value,
+    //   n: 1,
+    //   size: "1024x1024",
+    // });
 
-    console.log(res.data.data[0].url)
+    // console.log(res.data.data[0].url)
 
     if (message.type === InteractionType.APPLICATION_COMMAND) {
 
