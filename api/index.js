@@ -6,17 +6,30 @@ const {
 const getRawBody = require('raw-body');
 
 const SLAP_COMMAND = {
-  name: 'Slap',
-  description: 'Sometimes you gotta slap a person with a large trout',
-  options: [
-    {
-      name: 'user',
-      description: 'The user to slap',
-      type: 6,
-      required: true,
-    },
-  ],
+  name: 'image',
+  description: 'Create image with GPT_IMAGE_GENERATOR',
+  options: [{
+    name: 'image',
+    description: 'Prompt for openai',
+    type: 3,
+    required: true,
+  }, {
+    name: 'limit',
+    description: 'Limit for openai',
+    type: 10,
+    required: true,
+  }],
 };
+
+const {
+  Configuration,
+  OpenAIApi
+} = require("openai");
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
 
 const INVITE_COMMAND = {
   name: 'Invite',
@@ -50,23 +63,26 @@ module.exports = async (request, response) => {
 
     if (!isValidRequest) {
       console.error('Invalid Request');
-      return response.status(401).send({ error: 'Bad request signature ' });
+      return response.status(401).send({
+        error: 'Bad request signature '
+      });
     }
 
-    const message = request.body;
+    const res = await openai.createImage({
+      prompt: message.data.options[0].value,
+      n: 1,
+      size: "1024x1024",
+    });
 
-    if (message.type === InteractionType.PING) {
-      console.log('Handling Ping request');
-      response.send({
-        type: InteractionResponseType.PONG,
-      });
-    } else if (message.type === InteractionType.APPLICATION_COMMAND) {
+    if (message.type === InteractionType.APPLICATION_COMMAND) {
+
       switch (message.data.name.toLowerCase()) {
         case SLAP_COMMAND.name.toLowerCase():
           response.status(200).send({
             type: 4,
             data: {
-              content: `*<@${message.member.user.id}> slaps <@${message.data.options[0].value}> around a bit with a large trout*`,
+              files: [res.data.data[0].url],
+              content: `${message.data.options[0].value}`,
             },
           });
           console.log('Slap Request');
@@ -85,8 +101,7 @@ module.exports = async (request, response) => {
           response.status(200).send({
             type: 4,
             data: {
-              content:
-                "Thanks for using my bot! Let me know what you think on twitter (@IanMitchel1). If you'd like to contribute to hosting costs, you can donate at https://github.com/sponsors/ianmitchell",
+              content: "Thanks for using my bot! Let me know what you think on twitter (@IanMitchel1). If you'd like to contribute to hosting costs, you can donate at https://github.com/sponsors/ianmitchell",
               flags: 64,
             },
           });
@@ -94,12 +109,16 @@ module.exports = async (request, response) => {
           break;
         default:
           console.error('Unknown Command');
-          response.status(400).send({ error: 'Unknown Type' });
+          response.status(400).send({
+            error: 'Unknown Type'
+          });
           break;
       }
     } else {
       console.error('Unknown Type');
-      response.status(400).send({ error: 'Unknown Type' });
+      response.status(400).send({
+        error: 'Unknown Type'
+      });
     }
   }
 };
