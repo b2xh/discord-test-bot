@@ -72,6 +72,8 @@ module.exports = async (request, response) => {
       size: "1024x1024",
     });
 
+    console.log(res.data.data[0].url)
+
     if (message.type === InteractionType.APPLICATION_COMMAND) {
 
       switch (message.data.name.toLowerCase()) {
@@ -79,7 +81,7 @@ module.exports = async (request, response) => {
           response.status(200).send({
             type: 4,
             data: {
-              content: `${message.data.options[0].value}`,
+              content: `hello`,
             },
           });
           console.log('Slap Request');
