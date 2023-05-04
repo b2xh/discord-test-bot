@@ -28,7 +28,7 @@ const INVITE_COMMAND = {
         `https://discord.com/api/v8/applications/1103031357128585348/commands`, {
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bot MTEwMzAzMTM1NzEyODU4NTM0OA.GdWqUH.GRJvHweZB0rWrcR3W9jFE_AM_WeA6udg9FcfXk`,
+                "Authorization": `Bot `,
             },
             method: "PUT",
             body: JSON.stringify([SLAP_COMMAND, INVITE_COMMAND]),
